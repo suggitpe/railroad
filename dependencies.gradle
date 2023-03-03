@@ -1,0 +1,35 @@
+ext {
+
+
+    kotlinVersion = '1.8.10'
+    springBootVersion = '2.7.9'
+    libs = [
+
+            kotlin                    : "org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}",
+            kotlinReflect             : "org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}",
+
+            springBootStarterWeb      : "org.springframework.boot:spring-boot-starter-web:${springBootVersion}",
+            springBootThymeLeafStarter: "org.springframework.boot:spring-boot-starter-thymeleaf:${springBootVersion}",
+            jacksonKotlin             : 'com.fasterxml.jackson.module:jackson-module-kotlin',
+
+            slf4j                     : 'org.slf4j:slf4j-api:1.7.36',
+            logback                   : 'ch.qos.logback:logback-classic:1.2.11',
+
+            jaxb_xjc                  : 'com.sun.xml.bind:jaxb-xjc:4.0.2',
+
+            test                      : [
+                    junitApi             : 'org.junit.jupiter:junit-jupiter-api:5.9.0',
+                    junitEngine          : 'org.junit.jupiter:junit-jupiter-engine:5.9.0',
+                    mockito              : 'org.mockito:mockito-core:4.7.0',
+                    kotestAssertions     : 'io.kotest:kotest-assertions-core:5.4.2',
+
+                    springBootStarterTest: "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
+            ]
+    ]
+
+
+    gradlePlugins = [
+            kotlin    : "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}",
+            springboot: "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+    ]
+}

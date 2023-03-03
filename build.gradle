@@ -1,0 +1,65 @@
+buildscript {
+    apply from: "$rootDir/dependencies.gradle"
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath gradlePlugins.kotlin,
+                gradlePlugins.springboot
+    }
+}
+
+allprojects {
+    defaultTasks 'clean', 'build'
+}
+
+subprojects { projects ->
+
+    apply from: "$rootDir/dependencies.gradle"
+    apply plugin: 'kotlin'
+    apply plugin: 'jacoco'
+
+    group = 'org.suggs.sandbox.eventsourcing'
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        implementation libs.kotlin,
+                libs.kotlinReflect,
+                libs.slf4j
+
+        testImplementation libs.test.junitApi,
+                libs.test.kotestAssertions,
+                libs.test.mockito
+
+        testRuntimeOnly libs.test.junitEngine,
+                libs.logback
+    }
+
+    ext {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+
+    compileKotlin {
+        kotlinOptions {
+            freeCompilerArgs = ["-Xjsr305=strict"]
+            jvmTarget = "17"
+        }
+    }
+    compileTestKotlin {
+        kotlinOptions {
+            freeCompilerArgs = ["-Xjsr305=strict"]
+            jvmTarget = "17"
+        }
+    }
+
+}

@@ -1,0 +1,29 @@
+ext.genDir = "$buildDir\\generated-src"
+sourceSets.main.java.srcDirs += genDir
+
+configurations {
+    xjc
+}
+
+dependencies {
+    xjc libs.jaxb_xjc
+}
+
+task generateWsdl(dependsOn: processResources) {
+    doLast {
+        file(genDir).delete()
+        file(genDir).mkdirs()
+
+        ant.taskdef(
+                name: 'xjc',
+                classname: 'com.sun.tools.xjc.XJCTask',
+                classpath: configurations.xjc.asPath)
+
+        fileTree(dir: sourceSets.main.output.resourcesDir, include: '**/*.wsdl').each { schemaFile ->
+            logger.error("Processing ${schemaFile} into ${genDir}")
+            ant.xjc(destDir: genDir, schema: schemaFile, package: "org.suggs.wsdl", language: "WSDL"){
+//                produces(dir: genDir, includes: "**/*.java")
+            }
+        }
+    }
+}
