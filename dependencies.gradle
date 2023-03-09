@@ -3,6 +3,7 @@ ext {
 
     kotlinVersion = '1.8.10'
     springBootVersion = '2.7.9'
+    cxfVersion = '4.0.0'
     libs = [
 
             kotlin                    : "org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}",
@@ -16,6 +17,9 @@ ext {
             logback                   : 'ch.qos.logback:logback-classic:1.2.11',
 
             jaxb_xjc                  : 'com.sun.xml.bind:jaxb-xjc:4.0.2',
+            cxfCore                   : "org.apache.cxf:cxf-tools-wsdlto-core:${cxfVersion}",
+            cxfJaxws                  : "org.apache.cxf:cxf-tools-wsdlto-frontend-jaxws:${cxfVersion}",
+            cxfJaxb                   : "org.apache.cxf:cxf-tools-wsdlto-databinding-jaxb:${cxfVersion}",
 
             test                      : [
                     junitApi             : 'org.junit.jupiter:junit-jupiter-api:5.9.0',

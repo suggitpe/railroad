@@ -1,2 +1,8 @@
 apply from: "$rootDir/gradle/wsdl.gradle"
-compileJava.dependsOn generateWsdl
+ext.wsdlFile = 'https://lite.realtime.nationalrail.co.uk/OpenLDBWS/wsdl.aspx?ver=2021-11-01'
+compileJava.dependsOn generateCxfWsdl
+
+jar{
+    archiveBaseName = 'railroad-wsdl-lib'
+    archiveVersion = '0.0.1'
+}

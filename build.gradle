@@ -21,7 +21,7 @@ subprojects { projects ->
     apply plugin: 'kotlin'
     apply plugin: 'jacoco'
 
-    group = 'org.suggs.sandbox.eventsourcing'
+    group = 'org.suggs.sandbox.railroad'
 
     repositories {
         mavenCentral()

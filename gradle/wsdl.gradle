@@ -1,15 +1,37 @@
-ext.genDir = "$buildDir\\generated-src"
+ext.genDir = "$buildDir/generated-src"
 sourceSets.main.java.srcDirs += genDir
 
 configurations {
     xjc
+    cxf
 }
 
 dependencies {
     xjc libs.jaxb_xjc
+
+    cxf libs.cxfCore,
+            libs.cxfJaxws,
+            libs.cxfJaxb
 }
 
-task generateWsdl(dependsOn: processResources) {
+task generateCxfWsdl(dependsOn: processResources) {
+    doLast {
+        file(genDir).delete()
+        file(genDir).mkdirs()
+
+        logger.error("Processing ${wsdlFile} into ${genDir}")
+        javaexec {
+            classpath configurations.cxf
+            mainClass = 'org.apache.cxf.tools.wsdlto.WSDLToJava'
+            args '-d', genDir
+            args '-exsh', true
+            args '-verbose'
+            args wsdlFile
+        }
+    }
+}
+
+task generateXjcWsdl(dependsOn: processResources) {
     doLast {
         file(genDir).delete()
         file(genDir).mkdirs()
@@ -19,11 +41,7 @@ task generateWsdl(dependsOn: processResources) {
                 classname: 'com.sun.tools.xjc.XJCTask',
                 classpath: configurations.xjc.asPath)
 
-        fileTree(dir: sourceSets.main.output.resourcesDir, include: '**/*.wsdl').each { schemaFile ->
             logger.error("Processing ${schemaFile} into ${genDir}")
-            ant.xjc(destDir: genDir, schema: schemaFile, package: "org.suggs.wsdl", language: "WSDL"){
-//                produces(dir: genDir, includes: "**/*.java")
-            }
-        }
+            ant.xjc(destDir: genDir, schema: wsdlFile, package: "org.suggs.wsdl", language: "WSDL")
     }
 }
