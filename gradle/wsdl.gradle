@@ -11,7 +11,10 @@ dependencies {
 
     cxf libs.cxfCore,
             libs.cxfJaxws,
-            libs.cxfJaxb
+            libs.cxfJaxb,
+            libs.slf4j,
+            libs.logback
+    cxf files("$buildDir/resources/main/*")
 }
 
 task generateCxfWsdl(dependsOn: processResources) {
@@ -25,7 +28,7 @@ task generateCxfWsdl(dependsOn: processResources) {
             mainClass = 'org.apache.cxf.tools.wsdlto.WSDLToJava'
             args '-d', genDir
             args '-exsh', true
-            args '-verbose'
+            args '-quiet'
             args wsdlFile
         }
     }

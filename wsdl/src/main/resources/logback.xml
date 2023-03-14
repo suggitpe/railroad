@@ -8,9 +8,7 @@
     </appender>
 
     <logger name="root" level="INFO"/>
-    <logger name="org.springframework" level="INFO"/>
-    <logger name="org.hibernate" level="WARN"/>
-    <logger name="com.netflix" level="INFO"/>
+    <logger name="org.apache.cxf" level="WARNING"/>
 
     <root level="INFO">
         <appender-ref ref="STDOUT"/>
