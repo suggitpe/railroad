@@ -47,6 +47,7 @@ subprojects { projects ->
                 libs.test.mockito
 
         testRuntimeOnly libs.test.junitEngine,
+                libs.test.junitPlatform,
                 libs.logback
     }
 

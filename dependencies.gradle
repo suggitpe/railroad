@@ -24,6 +24,7 @@ ext {
             test                      : [
                     junitApi             : 'org.junit.jupiter:junit-jupiter-api:5.13.4',
                     junitEngine          : 'org.junit.jupiter:junit-jupiter-engine:5.13.4',
+                    junitPlatform   : 'org.junit.platform:junit-platform-launcher:1.13.4',
                     mockito              : 'org.mockito:mockito-core:5.20.0',
                     kotestAssertions     : 'io.kotest:kotest-assertions-core:6.0.3',
 
