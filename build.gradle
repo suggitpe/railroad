@@ -1,3 +1,5 @@
+import java.text.SimpleDateFormat
+
 buildscript {
     apply from: "$rootDir/dependencies.gradle"
 
@@ -9,6 +11,10 @@ buildscript {
         classpath gradlePlugins.kotlin,
                 gradlePlugins.springboot
     }
+}
+
+static def buildTimeStamp() {
+    return new SimpleDateFormat("yyyyMMdd-HHmmss").format(new Date())
 }
 
 allprojects {
@@ -25,6 +31,10 @@ subprojects { projects ->
 
     repositories {
         mavenCentral()
+    }
+
+    jar {
+        archiveVersion = "${buildTimeStamp()}"
     }
 
     dependencies {

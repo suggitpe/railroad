@@ -1,0 +1,8 @@
+dependencies{
+    implementation project(':wsdl')
+    implementation libs.cxfJaxb
+}
+
+jar {
+    archiveBaseName = 'railroad-sandbox'
+}

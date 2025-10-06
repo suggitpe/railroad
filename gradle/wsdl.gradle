@@ -32,3 +32,8 @@ tasks.register("generateCxfWsdl") {
         }
     }
 }
+
+compileKotlin{
+    dependsOn(generateCxfWsdl)
+    source(generateCxfWsdl.outputs.files)
+}
