@@ -22,6 +22,10 @@ tasks.register("generateCxfWsdl", JavaExec) {
         logger.info("Processing ${wsdlFile} into ${genDir}")
     }
 
+    // remove all the wdl2java logging crap
+    logging.captureStandardOutput(LogLevel.INFO)
+    logging.captureStandardError(LogLevel.ERROR)
+
     classpath = configurations.cxf
     mainClass.set("org.apache.cxf.tools.wsdlto.WSDLToJava")
     args("-d", genDir, "-p", "uk.co.nationalrail.opendbws", "-exsh", "true", "-quiet", "-autoNameResolution",wsdlFile)
