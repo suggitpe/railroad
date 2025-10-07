@@ -13,27 +13,18 @@ dependencies {
             libs.logback
 }
 
-tasks.register("generateCxfWsdl") {
+tasks.register("generateCxfWsdl", JavaExec) {
     dependsOn(processResources)
+
     doFirst {
         file(genDir).delete()
         file(genDir).mkdirs()
-
-        logger.error("Processing ${wsdlFile} into ${genDir}")
+        logger.info("Processing ${wsdlFile} into ${genDir}")
     }
 
-    doLast {
-        javaexec {
-            classpath configurations.cxf
-            mainClass = 'org.apache.cxf.tools.wsdlto.WSDLToJava'
-            args '-d', genDir
-            args '-p', "uk.co.nationalrail.opendbws"
-            args '-exsh', true
-            args '-quiet'
-            args '-autoNameResolution'
-            args wsdlFile
-        }
-    }
+    classpath = configurations.cxf
+    mainClass.set("org.apache.cxf.tools.wsdlto.WSDLToJava")
+    args("-d", genDir, "-p", "uk.co.nationalrail.opendbws", "-exsh", "true", "-quiet", "-autoNameResolution",wsdlFile)
 }
 
 compileKotlin {
