@@ -1,6 +1,9 @@
-dependencies{
+dependencies {
     implementation project(':wsdl')
+
     implementation libs.cxfJaxb
+
+    runtimeOnly libs.jaxws
 }
 
 jar {
