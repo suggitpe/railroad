@@ -1,5 +1,4 @@
-//ext.wsdlFile = 'https://lite.realtime.nationalrail.co.uk/OpenLDBWS/wsdl.aspx?ver=2021-11-01'
-ext.wsdlFile = 'src/main.resources/wsdl.aspx'
+ext.wsdlFile = 'https://lite.realtime.nationalrail.co.uk/OpenLDBWS/wsdl.aspx?ver=2021-11-01'
 apply from: "$rootDir/gradle/wsdl.gradle"
 compileJava.dependsOn generateCxfWsdl
 
