@@ -15,6 +15,7 @@ class Sandbox {
             log.debug("Departures from ...")
             val depBoard = getStationDepartureBoardFor("KET", accessTokenFrom(apiToken))
             depBoard.trainServices.service.map { log.debug("${RailService(it)}") }
+
             log.debug("Arrivals to ...")
             val arrBoard = getStationArrivalBoardFor("KET", accessTokenFrom(apiToken))
             arrBoard.trainServices.service.map { log.debug("${RailService(it)}") }
