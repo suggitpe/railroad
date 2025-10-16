@@ -7,6 +7,6 @@ abstract class RailService(
     open val origin: String,
     open val destination: String,
     open val length: Int?,
-    open val platform: String,
+    open val platform: String?,
     open val callingPoints: List<String>
 )

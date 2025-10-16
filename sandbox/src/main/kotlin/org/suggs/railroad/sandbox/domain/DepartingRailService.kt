@@ -10,7 +10,7 @@ data class DepartingRailService(
     val schedDeparture: String?,
     val estDeparture: String?,
     override val length: Int?,
-    override val platform: String,
+    override val platform: String?,
     override val callingPoints: List<String>
 ) : RailService(trainId, origin, destination, length, platform, callingPoints) {
 

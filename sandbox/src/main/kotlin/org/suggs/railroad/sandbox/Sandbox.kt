@@ -3,32 +3,43 @@ package org.suggs.railroad.sandbox
 import org.slf4j.LoggerFactory
 import org.suggs.railroad.sandbox.domain.ArrivingRailService
 import org.suggs.railroad.sandbox.domain.DepartingRailService
-import uk.co.nationalrail.opendbws.AccessToken
-import uk.co.nationalrail.opendbws.GetBoardRequestParams
-import uk.co.nationalrail.opendbws.LDBServiceSoap
-import uk.co.nationalrail.opendbws.Ldb
-import uk.co.nationalrail.opendbws.StationBoardWithDetails
+import org.suggs.railroad.sandbox.domain.RailService
+import uk.co.nationalrail.opendbws.*
 
 class Sandbox {
+
+    interface TokenAuthenticated{
+        fun usingApiToken(apiToken: String): List<RailService>
+    }
+
     companion object {
 
         private val log = LoggerFactory.getLogger(this::class.java)
+        private val soapService = Ldb().ldbServiceSoap
 
-        fun printStationBoard(apiToken: String) {
-
-            val soapService = Ldb().ldbServiceSoap
-
-            log.debug("Departures from ...")
-            val depBoard = getStationDepartureBoardFor("KET", soapService, accessTokenFrom(apiToken))
-            depBoard.trainServices.service.map { log.debug("${DepartingRailService(it)}") }
-            val foo = DepartingRailService(depBoard.trainServices.service[0])
-
-            log.debug("Arrivals to ...")
-            val arrBoard = getStationArrivalBoardFor("KET", soapService, accessTokenFrom(apiToken))
-            arrBoard.trainServices.service.map { log.debug("${ArrivingRailService(it)}") }
+        fun listTrainsDepartingFrom(station: String): TokenAuthenticated {
+            return object: TokenAuthenticated {
+                override fun usingApiToken(apiToken: String): List<RailService> {
+                    val depBoard = getStationDepartureBoardFor(station, soapService, accessTokenFrom(apiToken))
+                    return depBoard.trainServices.service.map { DepartingRailService(it) }
+                }
+            }
         }
 
-        private fun getStationDepartureBoardFor(station: String, soapService: LDBServiceSoap, token: AccessToken): StationBoardWithDetails {
+        fun listTrainsArrivingTo(station: String): TokenAuthenticated {
+            return object: TokenAuthenticated {
+                override fun usingApiToken(apiToken: String): List<RailService> {
+                    val arrBoard = getStationArrivalBoardFor(station, soapService, accessTokenFrom(apiToken))
+                    return arrBoard.trainServices.service.map { ArrivingRailService(it) }
+                }
+            }
+        }
+
+        private fun getStationDepartureBoardFor(
+            station: String,
+            soapService: LDBServiceSoap,
+            token: AccessToken
+        ): StationBoardWithDetails {
             return soapService.getDepBoardWithDetails(buildBoardParams(station), token).getStationBoardResult
         }
 
