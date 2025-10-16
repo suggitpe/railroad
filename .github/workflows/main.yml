@@ -36,7 +36,7 @@ jobs:
         run: |
           # Enforce dependency verification if you have gradle/verification-metadata.xml
           # (Gradle will fail if checksums/signatures don't match)
-          GRADLE_FLAGS="-Dorg.gradle.dependency.verification=file --no-daemon --warning-mode all"
+          GRADLE_FLAGS="-Dorg.gradle.dependency.verification=STRICT --no-daemon --warning-mode all"
 
           ./gradlew $GRADLE_FLAGS clean
 
