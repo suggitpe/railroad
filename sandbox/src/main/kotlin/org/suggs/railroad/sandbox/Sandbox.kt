@@ -8,7 +8,9 @@ import uk.co.nationalrail.opendbws.*
 
 class Sandbox {
 
-    interface TokenAuthenticated{
+    interface TokenAuthenticated {
+        fun to(station: String): TokenAuthenticated
+        fun from(station: String): TokenAuthenticated = to(station)
         fun usingApiToken(apiToken: String): List<RailService>
     }
 
@@ -18,19 +20,34 @@ class Sandbox {
         private val soapService = Ldb().ldbServiceSoap
 
         fun listTrainsDepartingFrom(station: String): TokenAuthenticated {
-            return object: TokenAuthenticated {
+            return object : TokenAuthenticated {
+                private lateinit var stn: String
+                override fun to(station: String): TokenAuthenticated {
+                    stn = station
+                    return this
+                }
+
                 override fun usingApiToken(apiToken: String): List<RailService> {
                     val depBoard = getStationDepartureBoardFor(station, soapService, accessTokenFrom(apiToken))
                     return depBoard.trainServices.service.map { DepartingRailService(it) }
+                        .filter { it.callingPoints.contains(stn) }
                 }
             }
         }
 
-        fun listTrainsArrivingTo(station: String): TokenAuthenticated {
-            return object: TokenAuthenticated {
+        fun listTrainsArrivingInto(station: String): TokenAuthenticated {
+            return object : TokenAuthenticated {
+                private lateinit var stn: String
+
+                override fun to(toStation: String): TokenAuthenticated {
+                    stn = toStation
+                    return this
+                }
+
                 override fun usingApiToken(apiToken: String): List<RailService> {
                     val arrBoard = getStationArrivalBoardFor(station, soapService, accessTokenFrom(apiToken))
                     return arrBoard.trainServices.service.map { ArrivingRailService(it) }
+                        .filter { it.callingPoints.contains(stn) }
                 }
             }
         }
@@ -54,7 +71,7 @@ class Sandbox {
         private fun buildBoardParams(station: String): GetBoardRequestParams {
             var reqParams = GetBoardRequestParams()
             reqParams.crs = station
-            reqParams.numRows = 10
+            reqParams.numRows = 40
             return reqParams
         }
 

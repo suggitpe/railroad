@@ -1,8 +1,6 @@
 package org.suggs.railroad.sandbox.domain
 
-import org.suggs.railroad.sandbox.domain.DepartingRailService.Companion.getCallingPointsFrom
 import uk.co.nationalrail.opendbws.ArrayOfArrayOfCallingPoints
-import uk.co.nationalrail.opendbws.ArrayOfCallingPoints
 import uk.co.nationalrail.opendbws.ServiceItemWithCallingPoints
 
 data class ArrivingRailService(
@@ -29,7 +27,7 @@ data class ArrivingRailService(
 
     companion object {
         fun getCallingPointsFrom(callingPoints: ArrayOfArrayOfCallingPoints?): List<String?>? {
-            return callingPoints?.callingPointList[0]?.callingPoint?.map{it.crs}
+            return callingPoints?.callingPointList[0]?.callingPoint?.map { it.crs }
         }
     }
 }
